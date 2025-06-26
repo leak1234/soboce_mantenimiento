@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Mantenimiento SOBOSCE {% endblock %}
+
+{% block content %}
+<h1>DATOS DEL SISTEMA </h1>
+
+<div class="dashboard-cards">
+    <div class="card card-equipos">
+        <h3>Total Equipos</h3>
+        <p>{{ total_equipos }}</p>
+    </div>
+    <div class="card card-pendientes">
+        <h3>Mantenimientos Pendientes</h3>
+        <p>{{ mant_pendientes }}</p>
+    </div>
+    <div class="card card-completados">
+        <h3>Mantenimientos Completados</h3>
+        <p>{{ mant_completados }}</p>
+    </div>
+    <div class="card card-usuarios">
+        <h3>Total Usuarios</h3>
+        <p>{{ total_usuarios }}</p>
+    </div>
+</div>
+
+<hr>
+
+<div class="chart-container">
+    <h3>Distribución de Mantenimientos</h3>
+    <div class="chart-flex">
+        {% set total_mantenimientos = mant_pendientes + mant_completados %}
+        {% for estado, cantidad in mant_por_estado %}
+            {% if total_mantenimientos > 0 %}
+                {% set porcentaje = (cantidad / total_mantenimientos * 100) | round(1) %}
+            {% else %}
+                {% set porcentaje = 0 %}
+            {% endif %}
+            <div class="donut"
+                style="--p: {{ porcentaje }};
+                       --c: {{ 'var(--color-pendiente)' if estado == 'Pendiente' else 'var(--color-completado)' }};">
+                {{ estado }}<br>
+                <small>{{ cantidad }}</small>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="chart-container">
+    <h3>Distribución de Usuarios por Rol</h3>
+    <div class="chart-flex">
+        {% for rol, cantidad in usuarios_por_rol %}
+            {% if total_usuarios > 0 %}
+                {% set porcentaje = (cantidad / total_usuarios * 100) | round(1) %}
+            {% else %}
+                {% set porcentaje = 0 %}
+            {% endif %}
+            {% if loop.index0 % 3 == 0 %}
+                {% set color = '#a3d5ff' %}
+            {% elif loop.index0 % 3 == 1 %}
+                {% set color = '#b3ffc6' %}
+            {% else %}
+                {% set color = '#ffe0ac' %}
+            {% endif %}
+            <div class="donut"
+                style="--p: {{ porcentaje }};
+                       --c: {{ color }};">
+                {{ rol }}<br>
+                <small>{{ cantidad }}</small>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

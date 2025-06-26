@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-xl font-bold mb-6">📦 Inventario de Repuestos</h1>
+
+<form method="get" class="filtros-form" style="margin-bottom: 1rem;">
+    <div class="filtros-grid">
+        <div class="filtro-item">
+            <label for="nombre">🔍 Nombre:</label>
+            <input type="text" name="nombre" id="nombre" placeholder="Repuesto..." value="{{ request.args.get('nombre', '') }}">
+        </div>
+
+        <div class="filtro-item">
+            <label for="proveedor">🏢 Proveedor:</label>
+            <input type="text" name="proveedor" id="proveedor" placeholder="Proveedor..." value="{{ request.args.get('proveedor', '') }}">
+        </div>
+
+        <div class="filtro-item">
+            <label for="stock">📦 Stock mínimo:</label>
+            <input type="number" name="stock" id="stock" min="0" value="{{ request.args.get('stock', '') }}">
+        </div>
+
+        <div class="filtro-item filtro-btns">
+            <label>&nbsp;</label>
+            <button type="submit">🔍 Buscar</button>
+            <a href="{{ url_for('inventario.lista_repuestos') }}" class="btn">🔄 Limpiar</a>
+        </div>
+    </div>
+</form>
+
+
+<a href="{{ url_for('inventario.nuevo_repuesto') }}" class="btn mb-4">➕ Nuevo Repuesto</a>
+
+<table class="table-auto w-full bg-white shadow-md rounded border-collapse">
+    <thead class="bg-blue-600 text-white">
+        <tr>
+            <th class="p-3 text-left">🔧 Nombre</th>
+            <th class="p-3 text-left">📄 Descripción</th>
+            <th class="p-3 text-left">📦 Stock</th>
+            <th class="p-3 text-left">📏 Unidad</th>
+            <th class="p-3 text-left">💰 Precio</th>
+            <th class="p-3 text-left">🏢 Proveedor</th>
+            <th class="p-3 text-center">⚙️ Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in repuestos %}
+        <tr class="border-b hover:bg-gray-100">
+            <td class="p-3">{{ r[1] }}</td>
+            <td class="p-3">{{ r[2] }}</td>
+            <td class="p-3">{{ r[3] }}</td>
+            <td class="p-3">{{ r[4] }}</td>
+            <td class="p-3">Bs. {{ r[5] }}</td>
+            <td class="p-3">{{ r[6] }}</td>
+            <td class="p-3 text-center">
+                <a href="{{ url_for('inventario.editar_repuesto', id=r[0]) }}" class="btn">✏️ Editar</a>
+                <form action="{{ url_for('inventario.eliminar_repuesto', id=r[0]) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar repuesto?')">🗑️ Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7" class="p-4 text-center text-gray-500">No hay repuestos registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

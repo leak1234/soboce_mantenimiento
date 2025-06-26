@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Horómetro{% endblock %}
+{% block content %}
+<h2 class="mb-4 font-bold text-lg">Registrar Horas de Uso</h2>
+
+<form method="post" class="mb-5 space-x-4">
+    <label>Fecha:
+        <input type="date" name="fecha" required>
+    </label>
+    <label>Horas acumuladas:
+        <input type="number" name="horas" step="0.01" required>
+    </label>
+    <button type="submit" class="btn">Guardar</button>
+</form>
+
+<h3 class="text-md font-semibold mb-2">Historial</h3>
+<table>
+    <thead>
+        <tr><th>Fecha</th><th>Horas acumuladas</th></tr>
+    </thead>
+    <tbody>
+        {% for r in registros %}
+        <tr><td>{{ r[0] }}</td><td>{{ r[1] }}</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('equipos.detalle_equipo', id=maquinaria_id) }}" class="btn btn-danger">Volver</a>
+{% endblock %}

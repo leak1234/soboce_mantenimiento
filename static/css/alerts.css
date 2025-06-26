@@ -1,0 +1,27 @@
+/* alerts.css */
+/* Flash messages */
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.flash {
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.flash.success {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.flash.error {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.flash.warning {
+    background-color: #f39c12;
+    color: white;
+}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">➕ Nuevo Usuario</h1>
+
+  <form action="{{ url_for('usuarios.nuevo_usuario') }}" method="post">
+    <table class="w-full border-collapse">
+      <tbody>
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 w-1/3 align-top">
+            <label for="nombre">Nombre:</label>
+          </td>
+          <td class="py-3 px-4">
+            <input
+              type="text"
+              name="nombre"
+              id="nombre"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+          </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 align-top">
+            <label for="correo">Correo:</label>
+          </td>
+          <td class="py-3 px-4">
+            <input
+              type="email"
+              name="correo"
+              id="correo"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+          </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 align-top">
+            <label for="contraseña">Contraseña:</label>
+          </td>
+          <td class="py-3 px-4">
+            <input
+              type="password"
+              name="contraseña"
+              id="contraseña"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+          </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 align-top">
+            <label for="rol">Rol:</label>
+          </td>
+          <td class="py-3 px-4">
+            <select
+              name="rol"
+              id="rol"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="admin">Admin</option>
+              <option value="tecnico">Técnico</option>
+              <option value="supervisor">Supervisor</option>
+            </select>
+          </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 align-top">
+            <label for="estado">Estado:</label>
+          </td>
+          <td class="py-3 px-4">
+            <select
+              name="estado"
+              id="estado"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="1">Activo</option>
+              <option value="0">Inactivo</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="mt-4">
+        <button type="submit" class="btn">💾 Registrar</button>
+      <a href="{{ url_for('usuarios.lista_usuarios') }}" class="btn btn-danger"> ✖ Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

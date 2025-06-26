@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Frecuencias de Mantenimiento{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">⏱ Frecuencias de Mantenimiento</h2>
+
+<form method="get" class="mb-4 filtros-grid">
+  <div class="filtro-item">
+    <label for="descripcion" class="block font-semibold mb-1">Descripción:</label>
+    <input
+      type="text"
+      id="descripcion"
+      name="descripcion"
+      value="{{ request.args.get('descripcion', '') }}"
+      placeholder="Descripción..."
+      class="input-text"
+    />
+  </div>
+  <div class="filtro-item">
+    <label for="tipo" class="block font-semibold mb-1">Tipo:</label>
+    <select name="tipo" id="tipo" class="input-select">
+      <option value="">-- Todos --</option>
+      <option value="por tiempo" {% if request.args.get('tipo') == 'por tiempo' %}selected{% endif %}>Por tiempo</option>
+      <option value="por uso" {% if request.args.get('tipo') == 'por uso' %}selected{% endif %}>Por uso</option>
+    </select>
+  </div>
+  <div class="filtro-item filtro-btns flex items-end space-x-2">
+    <button type="submit" class="btn">🔍 Buscar</button>
+    <a href="{{ url_for('frecuencias.lista_frecuencias') }}" class="btn btn-secondary">🔄 Limpiar</a>
+  </div>
+</form>
+
+<div class="mb-4">
+    <a class="btn" href="{{ url_for('frecuencias.crear') }}">+ Nueva Frecuencia</a>
+</div>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for f in frecuencias %}
+            <tr>
+                <td>{{ f[0] }}</td>
+                <td>{{ f[1] }}</td>
+                <td>{{ f[2] }}</td>
+                <td>{{ f[3] }}</td>
+                <td>
+                    <a class="btn" href="{{ url_for('frecuencias.editar', id=f[0]) }}">✏️ Editar</a>
+                    <form action="{{ url_for('frecuencias.eliminar', id=f[0]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn-small btn-danger" onclick="return confirm('¿Seguro de eliminar esta frecuencia?')">🗑 Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center py-4">No se encontraron frecuencias.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

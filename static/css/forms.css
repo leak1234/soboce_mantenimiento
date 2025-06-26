@@ -1,0 +1,54 @@
+/* forms.css */
+/* Formularios */
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin: 6px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+}
+
+form.formulario > div {
+    margin-bottom: 15px;
+}
+.mt-3 {
+    margin-top: 1rem;
+}
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.filtros-form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.filtros-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.filtros-grid input,
+.filtros-grid select,
+.filtros-grid button,
+.filtros-grid .btn {
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+.filtros-grid input[type="text"],
+.filtros-grid select,
+.filtros-grid input[type="date"] {
+    width: 180px;
+}

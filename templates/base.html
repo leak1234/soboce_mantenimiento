@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Sistema de Mantenimiento{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons-links.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/alerts.css') }}">
+
+
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>MANTENIMIENTO MAQUINARIA SOBOCE</h2>
+
+            {% if session.get('usuario_id') %}
+            <div class="user-info" style="margin-bottom: 1rem; padding: 0.5rem; background: #f0f0f0; border-radius: 4px;">
+                <p style="color: black;">Hola, {{ session.get('usuario', 'Usuario') }} </p>
+                <a href="{{ url_for('auth.logout') }}" style="color: red; text-decoration: none;">Cerrar sesión</a>
+            </div>
+            {% endif %}
+
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('inicio.inicio') }}" class="{% if request.path == '/' %}active{% endif %}">Inicio</a></li>
+                    <li><a href="{{ url_for('mantenimientos.lista_mantenimientos') }}" class="{% if request.path.startswith('/mantenimientos') %}active{% endif %}">Mantenimientos</a></li>
+                    <li><a href="{{ url_for('equipos.lista_equipos') }}" class="{% if request.path == '/equipos' %}active{% endif %}">Equipos</a></li>
+                    <li><a href="{{ url_for('inventario.lista_repuestos') }}" class="{% if request.path == '/inventario' %}active{% endif %}">Inventario</a></li>
+                    <li><a href="{{ url_for('reportes.reportes') }}" class="{% if request.path == '/reportes' %}active{% endif %}">Reportes</a></li>
+                    <li><a href="{{ url_for('usuarios.lista_usuarios') }}" class="{% if request.path == '/usuarios' %}active{% endif %}">Usuarios</a></li>
+                    <li><a href="{{ url_for('frecuencias.lista_frecuencias') }}" class="{% if request.path.startswith('/frecuencias') %}active{% endif %}">Frecuencias</a></li>
+
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div class="flash-messages">
+                  {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

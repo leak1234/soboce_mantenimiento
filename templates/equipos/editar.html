@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Equipo{% endblock %}
+
+{% block content %}
+<h1 class="text-xl font-bold mb-4">Editar Equipo</h1>
+
+<form action="{{ url_for('equipos.editar_equipo', id=equipo[0]) }}" method="post" class="space-y-6 max-w-xl">
+    <div>
+        <label for="nombre" class="block font-semibold">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" value="{{ equipo[1] }}" required class="w-full border p-2 rounded">
+    </div>
+
+    <div>
+        <label for="marca" class="block font-semibold">Marca:</label>
+        <input type="text" name="marca" id="marca" value="{{ equipo[2] }}" class="w-full border p-2 rounded">
+    </div>
+
+    <div>
+        <label for="modelo" class="block font-semibold">Modelo:</label>
+        <input type="text" name="modelo" id="modelo" value="{{ equipo[3] }}" class="w-full border p-2 rounded">
+    </div>
+
+    <div>
+        <label for="serie" class="block font-semibold">Serie:</label>
+        <input type="text" name="serie" id="serie" value="{{ equipo[4] }}" class="w-full border p-2 rounded">
+    </div>
+
+    <div>
+        <label for="ubicacion" class="block font-semibold">Ubicación:</label>
+        <textarea name="ubicacion" id="ubicacion" class="w-full border p-2 rounded">{{ equipo[5] }}</textarea>
+    </div>
+
+    <div>
+        <label for="estado" class="block font-semibold">Estado:</label>
+        <select name="estado" id="estado" class="w-full border p-2 rounded">
+            <option value="Activo" {% if equipo[6] == 'Activo' %}selected{% endif %}>Activo</option>
+            <option value="Inactivo" {% if equipo[6] == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="fecha_compra" class="block font-semibold">Fecha de Compra:</label>
+        <input type="date" name="fecha_compra" id="fecha_compra" value="{{ equipo[7] }}" class="w-full border p-2 rounded">
+    </div>
+
+    <div>
+        <label for="descripcion" class="block font-semibold">Descripción:</label>
+        <textarea name="descripcion" id="descripcion" class="w-full border p-2 rounded">{{ equipo[8] }}</textarea>
+    </div>
+
+    <div class="mt-3 flex space-x-3">
+        <button type="submit" class="btn">💾 Actualizar</button>
+        <a href="{{ url_for('equipos.lista_equipos') }}" class="btn btn-danger">✖ Cancelar</a>
+    </div>
+</form>
+{% endblock %}

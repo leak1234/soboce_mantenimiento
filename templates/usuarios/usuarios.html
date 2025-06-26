@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-xl font-bold mb-4">👥 Lista de Usuarios</h1>
+
+<form method="get" class="filtros-form" style="margin-bottom: 1rem;">
+    <div class="filtros-grid">
+        <div class="filtro-item">
+            <label for="nombre">👤 Nombre:</label>
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre..." value="{{ request.args.get('nombre', '') }}">
+        </div>
+
+        <div class="filtro-item">
+            <label for="correo">📧 Correo:</label>
+            <input type="text" name="correo" id="correo" placeholder="Correo..." value="{{ request.args.get('correo', '') }}">
+        </div>
+
+        <div class="filtro-item">
+            <label for="rol">🛡 Rol:</label>
+            <select name="rol" id="rol">
+                <option value="">-- Todos --</option>
+                <option value="admin" {% if request.args.get('rol') == 'admin' %}selected{% endif %}>Admin</option>
+                <option value="supervisor" {% if request.args.get('rol') == 'supervisor' %}selected{% endif %}>Supervisor</option>
+                <option value="tecnico" {% if request.args.get('rol') == 'tecnico' %}selected{% endif %}>Técnico</option>
+            </select>
+        </div>
+
+        <div class="filtro-item filtro-btns">
+            <label>&nbsp;</label>
+            <button type="submit">🔍 Buscar</button>
+            <a href="{{ url_for('usuarios.lista_usuarios') }}" class="btn">🔄 Limpiar</a>
+        </div>
+    </div>
+</form>
+
+
+<a href="{{ url_for('usuarios.nuevo_usuario') }}" class="btn mb-4">+ Nuevo Usuario</a>
+
+<table class="table-auto w-full bg-white shadow-md rounded border-collapse">
+    <thead class="bg-blue-600 text-white">
+        <tr>
+            
+            <th class="p-3 text-left">👤 Nombre</th>
+            <th class="p-3 text-left">📧 Correo</th>
+            <th class="p-3 text-left">🔑 Rol</th>
+            <th class="p-3 text-left">⚙️ Estado</th>
+            <th class="p-3 text-center">🛠 Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in usuarios %}
+        <tr class="border-t">
+            
+            <td class="p-3">{{ u[1] }}</td>
+            <td class="p-3">{{ u[2] }}</td>
+            <td class="p-3 capitalize">{{ u[3] }}</td>
+            <td class="p-3">
+                {% if u[4] %}
+                    <span class="text-green-600 font-semibold">Activo</span>
+                {% else %}
+                    <span class="text-red-600 font-semibold">Inactivo</span>
+                {% endif %}
+            </td>
+            <td class="p-3 text-center">
+                <a href="{{ url_for('usuarios.editar_usuario', id=u[0]) }}" class="btn">✏️ Editar</a>
+                <form action="{{ url_for('usuarios.eliminar_usuario', id=u[0]) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar este usuario?')" title="Eliminar usuario">🗑️Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" class="p-3 text-center text-gray-500">No hay usuarios registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Listado de Equipos{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">🛠️ Listado de Equipos</h1>
+
+<form method="get" class="filtros-form" style="margin-bottom: 1rem;">
+    <div class="filtros-grid">
+        <div class="filtro-item">
+            <label for="nombre">🔧 Nombre:</label>
+            <input type="text" name="nombre" id="nombre" placeholder="Nombre del equipo" value="{{ request.args.get('nombre', '') }}">
+        </div>
+
+        <div class="filtro-item">
+            <label for="estado">⚙️ Estado:</label>
+            <select name="estado" id="estado">
+                <option value="">-- Estado --</option>
+                <option value="Activo" {% if request.args.get('estado') == 'Activo' %}selected{% endif %}>Activo</option>
+                <option value="Inactivo" {% if request.args.get('estado') == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+            </select>
+        </div>
+
+        <div class="filtro-item filtro-btns">
+            <label>&nbsp;</label> <!-- alineación -->
+            <button type="submit">🔍 Buscar</button>
+            <a href="{{ url_for('equipos.lista_equipos') }}" class="btn">🔄 Limpiar</a>
+        </div>
+    </div>
+</form>
+
+
+<a href="{{ url_for('equipos.nuevo_equipo') }}" class="btn mb-3">+ Nuevo Equipo</a>
+
+<table class="table-auto w-full bg-white shadow-md rounded border-collapse">
+    <thead class="bg-blue-600 text-white">
+        <tr>
+           
+            <th class="p-3 text-left">📝 Nombre</th>
+            <th class="p-3 text-left">📊 Estado</th>
+            <th class="p-3 text-center">⚙️ Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for equipo in equipos %}
+        <tr>
+
+            <td>{{ equipo[1] }}</td>
+            <td>{{ equipo[6] if equipo|length > 3 else 'N/A' }}</td>
+            <td>
+                <a href="{{ url_for('equipos.detalle_equipo', id=equipo[0]) }}" class="btn">Ver</a>
+                <a href="{{ url_for('equipos.editar_equipo', id=equipo[0]) }}" class="btn btn-descargar">Editar</a>
+                <form action="{{ url_for('equipos.eliminar_equipo', id=equipo[0]) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Eliminar este equipo?')">Eliminar</button>
+                </form>
+                <a href="{{ url_for('horometro.registrar_horometro', maquinaria_id=equipo[0]) }}" class="btn mt-3">⏱ Registrar Horómetro</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No hay equipos registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

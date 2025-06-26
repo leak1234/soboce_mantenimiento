@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Generar Reportes{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">📊 Reportes del Sistema</h2>
+
+<!-- Mantenimientos -->
+<form method="get" action="{{ url_for('reportes.vista_mantenimientos') }}" target="previewFrame" class="mb-4">
+  <h3 class="font-semibold mb-2">🛠 Reporte de Mantenimientos</h3>
+  <label for="inicio">Desde:</label>
+  <input type="date" id="inicio" name="inicio" required>
+  
+  <label for="fin" class="ml-2">Hasta:</label>
+  <input type="date" id="fin" name="fin" required>
+  
+  <button type="submit" class="btn ml-2">Vista previa</button>
+  <button type="button" class="btn btn-descargar ml-2" onclick="descargar(this)">Descargar</button>
+</form>
+
+<!-- Repuestos -->
+<div class="mb-4">
+  <h3 class="font-semibold mb-2">🔧 Reporte de Repuestos</h3>
+  <a class="btn" href="{{ url_for('reportes.vista_repuestos') }}" target="previewFrame">Vista previa</a>
+  <a class="btn btn-descargar ml-2" href="{{ url_for('reportes.descargar_repuestos') }}" target="_blank">Descargar</a>
+</div>
+
+<!-- Órdenes de trabajo -->
+<div class="mb-4">
+  <h3 class="font-semibold mb-2">📋 Reporte de Órdenes de Trabajo</h3>
+  <a class="btn" href="{{ url_for('reportes.reporte_ordenes_trabajo') }}" target="previewFrame">Vista previa</a>
+  <a class="btn btn-descargar ml-2" href="{{ url_for('reportes.reporte_ordenes_trabajo') }}?download=1" target="_blank">Descargar</a>
+</div>
+
+<!-- Historial de mantenimientos -->
+<div class="mb-4">
+  <h3 class="font-semibold mb-2">🕓 Historial de Mantenimientos</h3>
+  <a class="btn" href="{{ url_for('reportes.reporte_historial_mantenimientos') }}" target="previewFrame">Vista previa</a>
+  <a class="btn btn-descargar ml-2" href="{{ url_for('reportes.reporte_historial_mantenimientos') }}?download=1" target="_blank">Descargar</a>
+</div>
+
+<!-- Bitácora del sistema -->
+<div class="mb-4">
+  <h3 class="font-semibold mb-2">🗂 Bitácora del Sistema</h3>
+  <a class="btn" href="{{ url_for('reportes.reporte_bitacora') }}" target="previewFrame">Vista previa</a>
+  <a class="btn btn-descargar ml-2" href="{{ url_for('reportes.reporte_bitacora') }}?download=1" target="_blank">Descargar</a>
+</div>
+
+<hr class="my-6">
+<iframe name="previewFrame" width="100%" height="600" class="border" style="border: 1px solid #ccc; border-radius: 6px;"></iframe>
+
+<script>
+function descargar(el) {
+    const form = el.closest("form");
+    const inicio = form.querySelector("input[name='inicio']").value;
+    const fin = form.querySelector("input[name='fin']").value;
+    
+    if (!inicio || !fin) {
+        alert("Por favor, ingrese ambas fechas.");
+        return;
+    }
+    
+    if (new Date(fin) < new Date(inicio)) {
+        alert("La fecha 'Hasta' no puede ser anterior a la fecha 'Desde'");
+        return;
+    }
+    
+    window.location = form.action.replace('preview', 'descargar') + '?inicio=' + inicio + '&fin=' + fin;
+}
+</script>
+{% endblock %}

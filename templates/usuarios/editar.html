@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">✏️ Editar Usuario</h1>
+
+  <form action="{{ url_for('usuarios.editar_usuario', id=usuario[0]) }}" method="post">
+    <table class="w-full border-collapse">
+      <tbody>
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 w-1/3 align-top">
+            <label for="nombre">Nombre:</label>
+          </td>
+          <td class="py-3 px-4">
+            <input
+              type="text"
+              name="nombre"
+              id="nombre"
+              value="{{ usuario[1] }}"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+          </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 align-top">
+            <label for="correo">Correo:</label>
+          </td>
+          <td class="py-3 px-4">
+            <input
+              type="email"
+              name="correo"
+              id="correo"
+              value="{{ usuario[2] }}"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+          </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 align-top">
+            <label for="contraseña">Contraseña<br><small class="text-sm text-gray-500">(dejar vacío para no cambiar)</small>:</label>
+          </td>
+          <td class="py-3 px-4">
+            <input
+              type="password"
+              name="contraseña"
+              id="contraseña"
+              placeholder="Nueva contraseña"
+              class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+          </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 align-top">
+            <label for="rol">Rol:</label>
+          </td>
+          <td class="py-3 px-4">
+            <select
+              name="rol"
+              id="rol"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="admin" {% if usuario[4] == 'admin' %}selected{% endif %}>Admin</option>
+              <option value="tecnico" {% if usuario[4] == 'tecnico' %}selected{% endif %}>Técnico</option>
+              <option value="supervisor" {% if usuario[4] == 'supervisor' %}selected{% endif %}>Supervisor</option>
+            </select>
+          </td>
+        </tr>
+
+        <tr class="border-b">
+          <td class="py-3 px-4 font-semibold text-gray-700 align-top">
+            <label for="estado">Estado:</label>
+          </td>
+          <td class="py-3 px-4">
+            <select
+              name="estado"
+              id="estado"
+              required
+              class="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="1" {% if usuario[5] %}selected{% endif %}>Activo</option>
+              <option value="0" {% if not usuario[5] %}selected{% endif %}>Inactivo</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="mt-4">
+        <button type="submit" class="btn">💾 Guardar Cambios</button>
+        <a href="{{ url_for('usuarios.lista_usuarios') }}"class="btn btn-danger"> ✖ Cancelar</a>
+    </div>
+
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Mantenimiento{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">✏️ Editar Mantenimiento #{{ mantenimiento[0] }}</h1>
+
+<form method="post" class="formulario">
+    <div>
+        <label for="maquinaria_id">🛠 Maquinaria:</label>
+        <select name="maquinaria_id" required>
+            {% for m in maquinas %}
+            <option value="{{ m[0] }}" {% if m[0] == mantenimiento[1] %}selected{% endif %}>{{ m[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        <label for="usuario_id_responsable">👤 Responsable:</label>
+        <select name="usuario_id_responsable" required>
+            {% for u in usuarios %}
+            <option value="{{ u[0] }}" {% if u[0] == mantenimiento[2] %}selected{% endif %}>{{ u[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        <label for="frecuencia_id">⏱ Frecuencia:</label>
+        <select name="frecuencia_id" required>
+            {% for f in frecuencias %}
+            <option value="{{ f[0] }}" {% if f[0] == mantenimiento[3] %}selected{% endif %}>{{ f[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        <label for="tipo">📄 Tipo:</label>
+        <input type="text" name="tipo" value="{{ mantenimiento[4] }}" required />
+    </div>
+
+    <div>
+        <label for="fecha_programada">📅 Fecha Programada:</label>
+        <input type="date" name="fecha_programada" value="{{ mantenimiento[5] }}" required />
+    </div>
+
+    <div>
+        <label for="estado">📌 Estado:</label>
+        <select name="estado" required>
+            <option value="Pendiente" {% if mantenimiento[6] == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+            <option value="Completado" {% if mantenimiento[6] == 'Completado' %}selected{% endif %}>Completado</option>
+            <option value="Cancelado" {% if mantenimiento[6] == 'Cancelado' %}selected{% endif %}>Cancelado</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="descripcion">📝 Descripción:</label>
+        <textarea name="descripcion" rows="4">{{ mantenimiento[7] }}</textarea>
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn">💾 Actualizar</button>
+        <a href="{{ url_for('mantenimientos.lista_mantenimientos') }}" class="btn btn-danger">✖ Cancelar</a>
+    </div>
+</form>
+{% endblock %}

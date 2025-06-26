@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Mantenimientos{% endblock %}
+
+{% block content %}
+<h1>🛠 Mantenimientos</h1>
+
+<h2>🛠 Lista de Mantenimientos</h2>
+
+<form method="get" class="filtros-form" style="margin-bottom: 1rem;">
+    <div class="filtros-grid">
+        <div class="filtro-item">
+            <label for="equipo">🔧 Equipo:</label>
+            <input type="text" name="equipo" id="equipo" placeholder="Nombre del equipo" value="{{ request.args.get('equipo', '') }}">
+        </div>
+
+        <div class="filtro-item">
+            <label for="estado">📋 Estado:</label>
+            <select name="estado" id="estado">
+                <option value="">-- Estado --</option>
+                <option value="Pendiente" {% if estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+                <option value="Cancelado" {% if estado == 'Cancelado' %}selected{% endif %}>Cancelado</option>
+                <option value="Completado" {% if estado == 'Completado' %}selected{% endif %}>Completado</option>
+            </select>
+        </div>
+
+        <div class="filtro-item">
+            <label for="desde">📅 Desde:</label>
+            <input type="date" name="desde" id="desde" value="{{ request.args.get('desde', '') }}">
+        </div>
+
+        <div class="filtro-item">
+            <label for="hasta">📅 Hasta:</label>
+            <input type="date" name="hasta" id="hasta" value="{{ request.args.get('hasta', '') }}">
+        </div>
+
+        <div class="filtro-item filtro-btns">
+            <label>&nbsp;</label> <!-- espacio para alinear -->
+            <button type="submit">🔍 Buscar</button>
+            <a href="{{ url_for('mantenimientos.lista_mantenimientos') }}" class="btn">🔄 Limpiar</a>
+        </div>
+    </div>
+</form>
+
+
+
+<a href="{{ url_for('mantenimientos.nuevo_mantenimiento') }}" class="btn mb-3">➕ Nuevo Mantenimiento</a>
+<table class="table-auto w-full bg-white shadow-md rounded border-collapse">
+    <thead class="bg-blue-600 text-white">
+        <tr>
+            
+            <th class="p-3 text-left">🏭 Maquinaria</th>
+            <th class="p-3 text-left">📌 Tipo</th>
+            <th class="p-3 text-left">📅 Fecha Programada</th>
+            <th class="p-3 text-left">📊 Estado</th>
+            <th class="p-3 text-center">⚙️ Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in mantenimientos %}
+        <tr>
+            
+            <td>{{ m[1] }}</td>
+            <td>{{ m[2] }}</td>
+            <td>{{ m[3] }}</td>
+            <td>
+                {% if m[4] == 'Pendiente' %}
+                    <span style="color: #e67e22; font-weight: bold;">{{ m[4] }}</span>
+                {% elif m[4] == 'Completado' %}
+                    <span style="color: #27ae60; font-weight: bold;">{{ m[4] }}</span>
+                {% else %}
+                    {{ m[4] }}
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('mantenimientos.editar_mantenimiento', id=m[0]) }}" class="btn">✏️ Editar</a>
+                <a href="{{ url_for('mantenimientos.ejecutar_mantenimiento', id=m[0]) }}" class="btn btn-descargar">▶ Ejecutar</a>
+                <form action="{{ url_for('mantenimientos.eliminar_mantenimiento', id=m[0]) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar este mantenimiento?');">🗑 Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center;">No hay mantenimientos registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

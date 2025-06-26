@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Editar Frecuencia{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">✏️ Editar Frecuencia</h2>
+
+<form method="post" class="form-box">
+
+    <div class="form-group">
+        <label for="descripcion">📌 Descripción:</label>
+        <input type="text" name="descripcion" id="descripcion" value="{{ frecuencia[1] }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="tipo">⚙️ Tipo:</label>
+        <select name="tipo" id="tipo" required>
+            <option value="por tiempo" {% if frecuencia[2] == 'por tiempo' %}selected{% endif %}>Por tiempo</option>
+            <option value="por uso" {% if frecuencia[2] == 'por uso' %}selected{% endif %}>Por uso</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="valor">⏱ Valor:</label>
+        <input type="number" name="valor" id="valor" value="{{ frecuencia[3] }}" required min="1">
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn">💾 Actualizar</button>
+        <a href="{{ url_for('frecuencias.lista_frecuencias') }}" class="btn btn-cancel">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

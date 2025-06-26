@@ -1,0 +1,58 @@
+/* buttons-links.css */
+/* Enlaces de acción */
+a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Botones simples */
+button {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1f5f8b;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #2980b9;
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #1f5f8b;
+}
+
+.btn-descargar {
+    background-color: #27ae60;
+}
+
+.btn-descargar:hover {
+    background-color: #1e8449;
+}
+
+
+.btn-danger {
+    background-color: #e74c3c;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
